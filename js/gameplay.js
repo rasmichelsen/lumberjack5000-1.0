@@ -8,6 +8,7 @@ let level = 1;
 let points = 0;
 let framesSinceLastHit = 0;
 //TODO add durability, and repair mechanics, maybe add a "helper" to the nearest tree after some time has happened.
+//TODO high score list perhaps
 
 let keys = {
     up: false,

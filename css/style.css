@@ -1,0 +1,15 @@
+#gameCanvas {
+    border: 2px solid black;
+    background-image: url(../graphics/baggrund.png);
+    background-size: cover;
+    position: absolute;
+    top: 100px;
+    bottom: 100px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+body {
+    background-color: darkgrey;
+}
