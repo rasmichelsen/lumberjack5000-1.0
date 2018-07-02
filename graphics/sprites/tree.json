@@ -1,0 +1,10 @@
+{
+    "framerate": 8,
+    "images": ["gfx/sprites/tree.png"],
+    "frames": {"width":90, "height":90},
+    "animations":{
+        "neutral":[0],
+        "dead":[0,7,false]
+        
+    }
+}

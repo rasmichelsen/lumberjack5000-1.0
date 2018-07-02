@@ -1,0 +1,17 @@
+{
+    "framerate": 4,
+    "images": ["gfx/sprites/lumberjack.png"],
+    "frames": {"width":64, "height":64},
+    "animations":{
+        "neutral":[0],
+        "down":[0,3],
+        "left":[4,7],
+        "right":[8,11],
+        "up":[12,15],
+        "choppingLeft": [16,19],
+        "choppingRight": [20,23],
+        "chainsawLeft": [24,27],
+        "chainsawRight": [28,31]
+        
+    }
+}
