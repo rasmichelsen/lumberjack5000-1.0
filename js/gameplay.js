@@ -558,32 +558,318 @@ function fingerDown(e) {
 
 //check if a chop has hit a healthbar (aka a tree), and reduce its health by the damage of that chop. If the healthbar dies, then remove it
 function hitHpBar() {
+    for (let j = hpbars.length-1; j>=0; j--) {
+        if (hitTestHPBAR(hero,hpbars[j])) {
+            hpbars[j].hp -= damageNumber;
+        }
 
+        //remove if health<0
+        if (hpbars[j].hp <= 0) {
+            stage.removeChild(hpbars[j]);
+            hpbars.splace(j,1);
+        }
+    }
 }
 
 //check if a chop has hit a healthbar (aka a tree), and reduce its health by the damage of that chop. If the healthbar dies, then remove it
 function hitHpBarBg() {
+    for (h = hpbarbgs.length-1; h>=0; h--) {
+        if (hitTestHPBAR(hero,hpbarbgs[h])) {
+            hpbarbgs[h].hp -= damageNumber;
+        }
 
+        //remove if health<0
+        if (hpbarbgs[h].hp <= 0) {
+            stage.removeChild(hpbarbgs[h]);
+            hpbarbgs.splice(h,1);
+        }
+    }
 }
 
 //create a power-up that boost the player
 function spawnPowerup() {
+    //roll to find out which powerup the player get
+    let randomNumber = Math.floor(Math.random()*6)+1;
+    console.log(randomNumber);
 
+    //create the different powerups depending on the roll
+
+    //chainsaw
+    if (randomNumber == 1) {
+        let powerup = new createjs.Bitmap(q.getResult("chainsawpng"));
+        powerup.x = Math.random() * stage.canvas.width;
+        powerup.y = Math.random() * stage.canvas.height;
+        powerup.height = 50;
+        powerup.width = 50;
+
+        //make sure the powerup cant spawn outside of the map.
+        if(powerup.x > 600-powerup.width){
+            powerup.x-=powerup.width;
+        }
+
+        if (powerup.x < 0+powerup.width) {
+            powerup.x+=powerup.width;
+        }
+
+        if (powerup.y > 500-powerup.width) {
+            powerup.y-=powerup.width;
+        }
+        
+        if (powerup.y < 0+powerup.width) {
+            powerup.y += powerup.width;
+        }
+
+        //set powerup type
+        powerup.type = "chainsaw";
+
+        //add to array and game
+        powerups.push(powerup);
+        console.log("I just made " + powerup.type);
+        stage.addChild(powerup);
+
+        //powerup jump animation to alert the player
+        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scakeX: 1, scaleY: 1}, 500);
+    }
+
+    //hourglass
+    if (randomNumber == 2) {
+        let powerup = new createjs.Bitmap(q.getResult("hourglasspng"));
+        powerup.x = Math.random() * stage.canvas.width;
+        powerup.y = Math.random() * stage.canvas.height;
+        powerup.height = 50;
+        powerup.width = 50;
+
+        //make sure the powerup cant spawn outside of the map.
+        if(powerup.x > 600-powerup.width){
+            powerup.x-=powerup.width;
+        }
+
+        if (powerup.x < 0+powerup.width) {
+            powerup.x+=powerup.width;
+        }
+
+        if (powerup.y > 500-powerup.width) {
+            powerup.y-=powerup.width;
+        }
+        
+        if (powerup.y < 0+powerup.width) {
+            powerup.y += powerup.width;
+        }
+
+        //set powerup type
+        powerup.type = "hourglass";
+
+        //add to array and game
+        powerups.push(powerup);
+        console.log("I just made " + powerup.type);
+        stage.addChild(powerup);
+
+        //powerup jump animation to alert the player
+        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scakeX: 1, scaleY: 1}, 500);
+    }
+
+    //tree log
+    if (randomNumber == 3) {
+        let powerup = new createjs.Bitmap(q.getResult("logpng"));
+        powerup.x = Math.random() * stage.canvas.width;
+        powerup.y = Math.random() * stage.canvas.height;
+        powerup.height = 50;
+        powerup.width = 50;
+
+        //make sure the powerup cant spawn outside of the map.
+        if(powerup.x > 600-powerup.width){
+            powerup.x-=powerup.width;
+        }
+
+        if (powerup.x < 0+powerup.width) {
+            powerup.x+=powerup.width;
+        }
+
+        if (powerup.y > 500-powerup.width) {
+            powerup.y-=powerup.width;
+        }
+        
+        if (powerup.y < 0+powerup.width) {
+            powerup.y += powerup.width;
+        }
+
+        //set powerup type
+        powerup.type = "log";
+
+        //add to array and game
+        powerups.push(powerup);
+        console.log("I just made " + powerup.type);
+        stage.addChild(powerup);
+
+        //powerup jump animation to alert the player
+        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scakeX: 1, scaleY: 1}, 500);
+    }
+
+    //Boots
+    if (randomNumber == 2) {
+        let powerup = new createjs.Bitmap(q.getResult("bootspng"));
+        powerup.x = Math.random() * stage.canvas.width;
+        powerup.y = Math.random() * stage.canvas.height;
+        powerup.height = 50;
+        powerup.width = 50;
+
+        //make sure the powerup cant spawn outside of the map.
+        if(powerup.x > 600-powerup.width){
+            powerup.x-=powerup.width;
+        }
+
+        if (powerup.x < 0+powerup.width) {
+            powerup.x+=powerup.width;
+        }
+
+        if (powerup.y > 500-powerup.width) {
+            powerup.y-=powerup.width;
+        }
+        
+        if (powerup.y < 0+powerup.width) {
+            powerup.y += powerup.width;
+        }
+
+        //set powerup type
+        powerup.type = "boots";
+
+        //add to array and game
+        powerups.push(powerup);
+        console.log("I just made " + powerup.type);
+        stage.addChild(powerup);
+
+        //powerup jump animation to alert the player
+        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scakeX: 1, scaleY: 1}, 500);
+    }
 }
 
-//check if power-up is active
+//check if power-up is active (fix from > to >=?)
 function checkPowerup() {
-    
+    //if the player has chainsaw
+    if (chainsawTimer > 0) {
+        settings.weapon = "chainsaw";
+        settings.attackSpeed = 5;
+        chainsawTimer -= 1/60; 
+    }
+    else {
+        settings.weapon = "axe";
+        settings.attackSpeed = 10;
+    }
+
+    //if the player has boots
+    if (speedTimer > 0) {
+        settings.speed = 7;
+        speedTimer -= 1/60;
+    } else {
+        settings.speed = 4;
+    }
 }
 
 //check if the player hits a power-up
 function hitPowerup() {
+    //check all the powerups if there is a hit
+    for (let k = powerups.length-1; k>=0; k--) {
+        //hittest
+        if (hitTest(hero,powerups[k])) {
+            //points sound
+            createjs.Sound.play("pointssound");
+            console.log(powerups[k].type + " er ramt");
 
+            //chainsaw powerup
+            if (powerups[k].type == "chainsaw") {
+                chainsawTimer = 10;
+
+                //text and animation
+                let text = new createjs.Text("Chainsaw Acquired!", "20px Russo One", "black");
+                text.x = powerups[k].x+25;
+                text.y = powerups[k].y;
+                text.textAlign = "center";
+                text.alpha = 0;
+
+                stage.addChild(text);
+
+                createjs.Tween.get(text).to({alpha:1}, 100).to({y: text.y-50}, 1000).wait(200).to({alpha: 0}, 100).call(function() {
+                    stage.removeChild(text);
+                });
+            }
+
+            //boot powerup
+            if (powerups[k].type == "boots") {
+                speedTimer = 10;
+
+                //text and animation
+                let text = new createjs.Text("Increased Speed!", "20px Russo One", "black");
+                text.x = powerups[k].x+25;
+                text.y = powerups[k].y;
+                text.textAlign = "center";
+                text.alpha = 0;
+
+                stage.addChild(text);
+
+                createjs.Tween.get(text).to({alpha:1}, 100).to({y: text.y-50}, 1000).wait(200).to({alpha: 0}, 100).call(function() {
+                    stage.removeChild(text);
+                });
+            }
+
+            //log powerup/bonus points
+            if (powerups[k].type == "log") {
+                points+=10;
+
+                //text and animation
+                let text = new createjs.Text("10 points!", "20px Russo One", "black");
+                text.x = powerups[k].x+25;
+                text.y = powerups[k].y;
+                text.textAlign = "center";
+                text.alpha = 0;
+
+                stage.addChild(text);
+
+                createjs.Tween.get(text).to({alpha:1}, 100).to({y: text.y-50}, 1000).wait(200).to({alpha: 0}, 100).call(function() {
+                    stage.removeChild(text);
+                });
+            }
+
+            //remove the powerup, which was hit
+            stage.removeChild(powerups[k]);
+            powerups.splice(k,1);
+        }
+    }
 }
 
 //check if the players chop has hit a tree, and if it has reduce the trees health by the damage of the chop, and if the tree dies then remove it.
 function hitTrees() {
+    //check all the trees
+    for (let i = trees.length-1; i>=0; i--) {
+        //test if the tree was hit
+        if (hitTest(hero,trees[i])) {
+            console.log(trees[i] + " er ramt");
+            //reduce the trees health
+            trees[i].hp -= damageNumber;
 
+            //make damage number text mmo-style
+            let text = new createjs.Text(damageNumber, "32px Russo One", "red");
+            text.x = trees[i].x+25;
+            text.y = trees[i].y;
+            text.textAlign = "center";
+            text.alpha = 0;
+
+            //add it to the game
+            stage.addCHild(text);
+
+            //animate the damage number
+            createjs.Tween.get(text).to({alpha:1}, 100).to({y:text.y-50},200).wait(200).to({alpha:0},100).call(function() {
+                stage.removeChild(text);
+            });
+
+            //if the tree is dead, remove it and check if we get a powerup from it
+            if (trees[i].hp <= 0) {
+                points++;
+                stage.removeChild(trees[i]);
+                trees.splice(i,1);
+                spawnPowerup();
+            }
+        }
+    }
 }
 
 //check whether 2 objects are touching eachother
