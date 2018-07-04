@@ -8,6 +8,8 @@ let level = 1;
 let points = 0;
 let framesSinceLastHit = 0;
 //TODO add durability, and repair mechanics, maybe add a "helper" to the nearest tree after some time has happened.
+//TODO make it possible to mute sound
+// improve the healthbars so its not objects in itself
 //TODO high score list perhaps
 
 let keys = {
@@ -79,7 +81,7 @@ function createPreloader() {
     q.installPlugin(createjs.Sound);
     //load assets
     q.loadManifest([
-        {id: "heroSS", src: "graphics/sprites/lumberjack.json", type: "spritesheet"},¨
+        {id: "heroSS", src: "graphics/sprites/lumberjack.json", type: "spritesheet"},
         {id: "treepng", src: "graphics/tree2.png"},
         {id: "chainsawpng", src:"graphics/chainsaw.png"},
         {id: "hourglasspng", src:"graphics/hourglass.png"},
