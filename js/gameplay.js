@@ -569,6 +569,11 @@ function spawnPowerup() {
 
 }
 
+//check if power-up is active
+function checkPowerup() {
+    
+}
+
 //check if the player hits a power-up
 function hitPowerup() {
 
