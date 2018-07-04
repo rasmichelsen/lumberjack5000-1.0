@@ -154,7 +154,7 @@ function setup() {
     stage.addChild(hero);
 
     //start the first level and spawn 1 tree
-    addTrees(1);
+    newLevel(1);
 
     //add level, points and time left text
     levelText = new createjs.Text("points: "+ points, "25px Russo One", "#35eaf");
@@ -180,11 +180,146 @@ function setup() {
 
 //handle player movement
 function movePlayer() {
+    //left arrow key
+    if (keys.left) {
+        hero.x -= settings.speed;
+        if (settings.currentDirection != "left") {
+            settings.facing = "left";
+            hero.gotoAndPlay("left");
+            console.log(settings.facing);
+            settings.currentDirection = "left";
+        }
+    }
 
+    //right arrow key
+    if (keys.right) {
+        hero.x += settings.speed;
+        if (settings.currentDirection != "right") {
+            settings.facing = "right";
+            hero.gotoAndPlay("right");
+            console.log(settings.facing);
+            settings.currentDirection = "right";
+        }
+    }
+
+    //up arrow key
+    if (keys.up) {
+        hero.y -= settings.speed;
+        if (settings.currentDirection != "up") {
+            hero.gotoAndPlay("up");
+            settings.currentDirection = "down";
+        }
+    }
+
+    //down arrow key
+    if (keys.down) {
+        hero.y += settings.speed;
+        if (settings.currentDirection != "down") {
+            hero.gotoAndPlay("down");
+            settings.currentDirection = "down";
+        }
+    }
+
+    // space
+    if (keys.space) {
+        console.log("chopping");
+        if (settings.currentDirection != "chopping" && settings.facing == "left" && settings.weapon == "axe") {
+            hero.gotoAndPlay("choppingLeft");
+            settings.currentDirection = "chopping";
+        }
+
+        if (settings.currentDirection != "chopping" && settings.facing == "right" && settings.weapon == "axe") {
+            hero.gotoAndPlay("choppingRight");
+            settings.currentDirection = "chopping";
+        }
+
+        if (settings.currentDirection != "chopping" && settings.facing == "left" && settings.weapon == "chainsaw") {
+            hero.gotoAndPlay("chainsawLeft");
+            settings.currentDirection = "chopping";
+        }
+
+        if (settings.currentDirection != "chopping" && settings.facing == "right" && settings.weapon =="chainsaw") {
+            hero.gotoAndPlay("chainsawRight"); 
+            settings.currentDirection = "chopping";
+        }
+    }
+
+    //when nothing is pressed return to neutral sprite position
+    if (!keys.up && !keys.down && !keys.left && !keys.right && !keys.space) {
+        hero.gotoAndPlay("neutral");
+        settings.currentDirection = "neutral";
+    }
 }
 
-//the "new level function" which fires every time a new level begins. Adds an amount of trees equal to the level.
-function addTrees(amount) {
+//new level. Add amount of trees equal to the level
+function newLevel(amount) {
+    //set alive to true so the game can start
+    settings.alive = true;
+
+    //remove logo and "howtoplay" with animation/tween
+    createjs.Tween.get(logoImg).to({ y: -1000 },1500);
+    createjs.Tween.get(howtoplayImg).to({ y: +1000},1500);
+
+    //set timer to 60 sec
+    timer = 60;
+
+    //make a tree for each level
+    for (let i=0; i<amount; i++;) {
+        let tree = new createjs.Bitmap(q.getResult("treepng"));
+        tree.width = tree.height = 55;
+        tree.hp = settings.enemyHP;
+        tree.x = math.random()*stage.canvas.width;
+        tree.y = math.random()*stage.canvas.height;
+
+        //move tree into the map if it spawns outside of it. 500x600 is the dimensions
+        if (tree.x < 600-tree.width) {
+            tree.x -= tree.width;
+        }
+
+        if (tree.x < 0+tree.width) {
+            tree.x += tree.width;
+        }
+
+        if (tree.y > 500-tree.width) {
+            tree.y -= tree.width;
+        }
+
+        if (tree.y < 0+tree.width) {
+            tree.y += tree.width;
+        }
+
+        // make a healthbar (background)
+        let hpbarbg = new createjs.Shape();
+        hpbarbg.graphics.beginFill("black").drawRect(0,0,50,10);
+        hpbarbg.width = 70;
+        hpbarbg.height = 70;
+        hpbarbg.x = tree.x+5;
+        hpbarbg.y = tree.y+20;
+        hpbarbg.hp = settings.enemyHP;
+        hpbarbg.hitX = tree.x;
+        hpbarbg.hitY = tree.y;
+
+        //make healthbar
+        let hpbar = new createjs.Shape();
+        hpbar.graphics.beginFill("green").drawRect(0,0,50,10);
+        hpbar.width = 70;
+        hpbar.height = 70;
+        hpbar.x = tree.x+5;
+        hpbar.y = tree.y+20;
+        hpbar.hp = settings.enemyHP;
+        hpbar.hitX = tree.x;
+        hpbar.hitY = tree.y;
+
+        //add trees and healthbars to their respective arrays, so I can keep track of them.
+        trees.push(tree);
+        hpbarbgs.push(hpbarbg);
+        hpbars.push(hpbar);
+
+        //add the things to the game
+        stage.addChild(tree);
+        stage.addChild(hpbarbg);
+        stage.addChild(hpbar);
+    }
 
 }
 
