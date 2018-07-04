@@ -69,7 +69,7 @@ function createPreloader() {
     stage.addChild(howtoplayImg);
 
     //preload text
-    preloadText = new createjs.Text("Loading"; "30px Russo One", "white");
+    preloadText = new createjs.Text("Loading", "30px Russo One", "white");
     preloadText.textBaseline = "middle";
     preloadText.textAlign = "center";
     preloadText.y = stage.canvas.width/2;
@@ -266,7 +266,7 @@ function newLevel(amount) {
     timer = 60;
 
     //make a tree for each level
-    for (let i=0; i<amount; i++;) {
+    for (let i=0; i<amount; i++) {
         let tree = new createjs.Bitmap(q.getResult("treepng"));
         tree.width = tree.height = 55;
         tree.hp = settings.enemyHP;
@@ -362,7 +362,7 @@ function didIWin() {
         stage.addChild(text);
 
         //animate the text so it fades in and out
-        createjs.Tween.get(text).to({alpha:1}, 1000).wait(1000).to({alpha:0}.800).call(function() {
+        createjs.Tween.get(text).to({alpha:1}, 1000).wait(1000).to({alpha:0}, 800).call(function() {
             stage.removeChild(text);
         });
 
@@ -508,7 +508,7 @@ function redrawHpbar() {
         }
 
         if (hpbars[i].hp < 50) {
-            hpbars[i].graphics.instructions[2].style)"orange";
+            hpbars[i].graphics.instructions[2].style="orange";
         }
     }
 }
