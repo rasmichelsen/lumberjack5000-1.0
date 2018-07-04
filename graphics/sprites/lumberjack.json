@@ -1,6 +1,6 @@
 {
     "framerate": 4,
-    "images": ["gfx/sprites/lumberjack.png"],
+    "images": ["graphics/sprites/lumberjack.png"],
     "frames": {"width":64, "height":64},
     "animations":{
         "neutral":[0],

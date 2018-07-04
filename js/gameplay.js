@@ -4,6 +4,7 @@ let stage, hero, damageNumber, levelText, pointsText, timer, timerText, preloadT
 let trees = [];
 let hpbarbgs = [];
 let hpbars = [];
+let powerups = [];
 let level = 1;
 let points = 0;
 let framesSinceLastHit = 0;
@@ -26,7 +27,7 @@ let settings = {
     facing: "left",
     currentDirection: "neutral",
     attackSpeed: 10,
-    enemyHP: 10,
+    enemyHP: 100,
     alive: false,
     weapon: "axe"
 };
@@ -72,8 +73,8 @@ function createPreloader() {
     preloadText = new createjs.Text("Loading", "30px Russo One", "white");
     preloadText.textBaseline = "middle";
     preloadText.textAlign = "center";
-    preloadText.y = stage.canvas.width/2;
-    preloadText.x = stage.canvas.height/2+150;
+    preloadText.x = stage.canvas.width/2;
+    preloadText.y = stage.canvas.height/2+150;
     stage.addChild(preloadText);
 
     //the preloader
@@ -270,8 +271,8 @@ function newLevel(amount) {
         let tree = new createjs.Bitmap(q.getResult("treepng"));
         tree.width = tree.height = 55;
         tree.hp = settings.enemyHP;
-        tree.x = math.random()*stage.canvas.width;
-        tree.y = math.random()*stage.canvas.height;
+        tree.x = Math.random()*stage.canvas.width;
+        tree.y = Math.random()*stage.canvas.height;
 
         //move tree into the map if it spawns outside of it. 500x600 is the dimensions
         reSpawnIfOutsideMap(tree);
@@ -339,7 +340,7 @@ function didIWin() {
 
         //add centered text displaying level
         let text = new createjs.Text("Level " + level, "32px Russo One", "#35eaf");
-        text.y = stage.canvas.width/2;
+        text.x = stage.canvas.width/2;
         text.y = stage.canvas.height/2;
         text.textAlign = "center";
         text.alpha = 0;
@@ -462,7 +463,7 @@ function youLose() {
                 hpbars.splice(u,1);
             }
 
-            for (let o = powerups.length-1; o>=0; 0--) {
+            for (let o = powerups.length-1; o>=0; o--) {
                 stage.removeChild(powerups[o]);
                 powerups.splice(o,1);
             }
@@ -490,7 +491,7 @@ function redrawHpbar() {
 
         //change the color
         if (hpbars[i].hp < 25) {
-            hphars[i].graphics.instructions[2].style="red";
+            hpbars[i].graphics.instructions[2].style="red";
         }
 
         if (hpbars[i].hp < 50) {
@@ -552,14 +553,14 @@ function hitHpBar() {
         //remove if health<0
         if (hpbars[j].hp <= 0) {
             stage.removeChild(hpbars[j]);
-            hpbars.splace(j,1);
+            hpbars.splice(j,1);
         }
     }
 }
 
 //check if a chop has hit a healthbar (aka a tree), and reduce its health by the damage of that chop. If the healthbar dies, then remove it
 function hitHpBarBg() {
-    for (h = hpbarbgs.length-1; h>=0; h--) {
+    for (let h = hpbarbgs.length-1; h>=0; h--) {
         if (hitTestHPBAR(hero,hpbarbgs[h])) {
             hpbarbgs[h].hp -= damageNumber;
         }
@@ -600,7 +601,7 @@ function spawnPowerup() {
         stage.addChild(powerup);
 
         //powerup jump animation to alert the player
-        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scakeX: 1, scaleY: 1}, 500);
+        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scaleX: 1, scaleY: 1}, 500);
     }
 
     //hourglass
@@ -623,7 +624,7 @@ function spawnPowerup() {
         stage.addChild(powerup);
 
         //powerup jump animation to alert the player
-        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scakeX: 1, scaleY: 1}, 500);
+        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scaleX: 1, scaleY: 1}, 500);
     }
 
     //tree log
@@ -646,7 +647,7 @@ function spawnPowerup() {
         stage.addChild(powerup);
 
         //powerup jump animation to alert the player
-        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scakeX: 1, scaleY: 1}, 500);
+        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scaleX: 1, scaleY: 1}, 500);
     }
 
     //Boots
@@ -669,7 +670,7 @@ function spawnPowerup() {
         stage.addChild(powerup);
 
         //powerup jump animation to alert the player
-        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scakeX: 1, scaleY: 1}, 500);
+        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scaleX: 1, scaleY: 1}, 500);
     }
 }
 
@@ -772,7 +773,7 @@ function hitTrees() {
     for (let i = trees.length-1; i>=0; i--) {
         //test if the tree was hit
         if (hitTest(hero,trees[i])) {
-            console.log(trees[i] + " er ramt");
+            console.log(trees[i]+" er ramt");
             //reduce the trees health
             trees[i].hp -= damageNumber;
 
@@ -784,7 +785,7 @@ function hitTrees() {
             text.alpha = 0;
 
             //add it to the game
-            stage.addCHild(text);
+            stage.addChild(text);
 
             //animate the damage number
             createjs.Tween.get(text).to({alpha:1}, 100).to({y:text.y-50},200).wait(200).to({alpha:0},100).call(function() {
@@ -828,18 +829,15 @@ function hitTestHPBAR(object1,object2) {
 
 //if something spawns outside the map
 function reSpawnIfOutsideMap(object) {
-    if (object.x < 600-object.width) {
-        object.x -= object.width;
+    if(object.x > 600-object.width){
+        object.x-=object.width;
     }
-
     if (object.x < 0+object.width) {
-        object.x += object.width;
+        object.x+=object.width;
     }
-
     if (object.y > 500-object.width) {
-        object.y -= object.width;
+        object.y-=object.width;
     }
-
     if (object.y < 0+object.width) {
         object.y += object.width;
     }
