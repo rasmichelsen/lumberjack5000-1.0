@@ -274,21 +274,7 @@ function newLevel(amount) {
         tree.y = math.random()*stage.canvas.height;
 
         //move tree into the map if it spawns outside of it. 500x600 is the dimensions
-        if (tree.x < 600-tree.width) {
-            tree.x -= tree.width;
-        }
-
-        if (tree.x < 0+tree.width) {
-            tree.x += tree.width;
-        }
-
-        if (tree.y > 500-tree.width) {
-            tree.y -= tree.width;
-        }
-
-        if (tree.y < 0+tree.width) {
-            tree.y += tree.width;
-        }
+        reSpawnIfOutsideMap(tree);
 
         // make a healthbar (background)
         let hpbarbg = new createjs.Shape();
@@ -603,21 +589,7 @@ function spawnPowerup() {
         powerup.width = 50;
 
         //make sure the powerup cant spawn outside of the map.
-        if(powerup.x > 600-powerup.width){
-            powerup.x-=powerup.width;
-        }
-
-        if (powerup.x < 0+powerup.width) {
-            powerup.x+=powerup.width;
-        }
-
-        if (powerup.y > 500-powerup.width) {
-            powerup.y-=powerup.width;
-        }
-        
-        if (powerup.y < 0+powerup.width) {
-            powerup.y += powerup.width;
-        }
+        reSpawnIfOutsideMap(powerup);
 
         //set powerup type
         powerup.type = "chainsaw";
@@ -640,21 +612,7 @@ function spawnPowerup() {
         powerup.width = 50;
 
         //make sure the powerup cant spawn outside of the map.
-        if(powerup.x > 600-powerup.width){
-            powerup.x-=powerup.width;
-        }
-
-        if (powerup.x < 0+powerup.width) {
-            powerup.x+=powerup.width;
-        }
-
-        if (powerup.y > 500-powerup.width) {
-            powerup.y-=powerup.width;
-        }
-        
-        if (powerup.y < 0+powerup.width) {
-            powerup.y += powerup.width;
-        }
+        reSpawnIfOutsideMap(powerup);
 
         //set powerup type
         powerup.type = "hourglass";
@@ -677,21 +635,7 @@ function spawnPowerup() {
         powerup.width = 50;
 
         //make sure the powerup cant spawn outside of the map.
-        if(powerup.x > 600-powerup.width){
-            powerup.x-=powerup.width;
-        }
-
-        if (powerup.x < 0+powerup.width) {
-            powerup.x+=powerup.width;
-        }
-
-        if (powerup.y > 500-powerup.width) {
-            powerup.y-=powerup.width;
-        }
-        
-        if (powerup.y < 0+powerup.width) {
-            powerup.y += powerup.width;
-        }
+        reSpawnIfOutsideMap(powerup);
 
         //set powerup type
         powerup.type = "log";
@@ -714,21 +658,7 @@ function spawnPowerup() {
         powerup.width = 50;
 
         //make sure the powerup cant spawn outside of the map.
-        if(powerup.x > 600-powerup.width){
-            powerup.x-=powerup.width;
-        }
-
-        if (powerup.x < 0+powerup.width) {
-            powerup.x+=powerup.width;
-        }
-
-        if (powerup.y > 500-powerup.width) {
-            powerup.y-=powerup.width;
-        }
-        
-        if (powerup.y < 0+powerup.width) {
-            powerup.y += powerup.width;
-        }
+        reSpawnIfOutsideMap(powerup);
 
         //set powerup type
         powerup.type = "boots";
@@ -894,4 +824,23 @@ function hitTestHPBAR(object1,object2) {
             return false;
         }
         return true;
+}
+
+//if something spawns outside the map
+function reSpawnIfOutsideMap(object) {
+    if (object.x < 600-object.width) {
+        object.x -= object.width;
+    }
+
+    if (object.x < 0+object.width) {
+        object.x += object.width;
+    }
+
+    if (object.y > 500-object.width) {
+        object.y -= object.width;
+    }
+
+    if (object.y < 0+object.width) {
+        object.y += object.width;
+    }
 }
