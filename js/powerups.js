@@ -1,3 +1,6 @@
+//TODO turn into a method like in twitter
+//TODO also in hitPowerup, with text content as parameter.
+
 //create a power-up that boost the player
 function spawnPowerup() {
     //roll to find out which powerup the player get
@@ -8,94 +11,22 @@ function spawnPowerup() {
 
     //chainsaw
     if (randomNumber == 1) {
-        let powerup = new createjs.Bitmap(q.getResult("chainsawpng"));
-        powerup.x = Math.random() * stage.canvas.width;
-        powerup.y = Math.random() * stage.canvas.height;
-        powerup.height = 50;
-        powerup.width = 50;
-
-        //make sure the powerup cant spawn outside of the map.
-        reSpawnIfOutsideMap(powerup);
-
-        //set powerup type
-        powerup.type = "chainsaw";
-
-        //add to array and game
-        powerups.push(powerup);
-        console.log("I just made " + powerup.type);
-        stage.addChild(powerup);
-
-        //powerup jump animation to alert the player
-        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scaleX: 1, scaleY: 1}, 500);
+        createPowerup('chainsaw');
     }
 
     //hourglass
-    if (randomNumber == 2) {
-        let powerup = new createjs.Bitmap(q.getResult("hourglasspng"));
-        powerup.x = Math.random() * stage.canvas.width;
-        powerup.y = Math.random() * stage.canvas.height;
-        powerup.height = 50;
-        powerup.width = 50;
-
-        //make sure the powerup cant spawn outside of the map.
-        reSpawnIfOutsideMap(powerup);
-
-        //set powerup type
-        powerup.type = "hourglass";
-
-        //add to array and game
-        powerups.push(powerup);
-        console.log("I just made " + powerup.type);
-        stage.addChild(powerup);
-
-        //powerup jump animation to alert the player
-        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scaleX: 1, scaleY: 1}, 500);
+    else if (randomNumber == 2) {
+        createPowerup('hourglass');
     }
 
     //tree log
-    if (randomNumber == 3) {
-        let powerup = new createjs.Bitmap(q.getResult("logpng"));
-        powerup.x = Math.random() * stage.canvas.width;
-        powerup.y = Math.random() * stage.canvas.height;
-        powerup.height = 50;
-        powerup.width = 50;
-
-        //make sure the powerup cant spawn outside of the map.
-        reSpawnIfOutsideMap(powerup);
-
-        //set powerup type
-        powerup.type = "log";
-
-        //add to array and game
-        powerups.push(powerup);
-        console.log("I just made " + powerup.type);
-        stage.addChild(powerup);
-
-        //powerup jump animation to alert the player
-        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scaleX: 1, scaleY: 1}, 500);
+    else if (randomNumber == 3) {
+        createPowerup('log');
     }
 
     //Boots
-    if (randomNumber == 2) {
-        let powerup = new createjs.Bitmap(q.getResult("bootspng"));
-        powerup.x = Math.random() * stage.canvas.width;
-        powerup.y = Math.random() * stage.canvas.height;
-        powerup.height = 50;
-        powerup.width = 50;
-
-        //make sure the powerup cant spawn outside of the map.
-        reSpawnIfOutsideMap(powerup);
-
-        //set powerup type
-        powerup.type = "boots";
-
-        //add to array and game
-        powerups.push(powerup);
-        console.log("I just made " + powerup.type);
-        stage.addChild(powerup);
-
-        //powerup jump animation to alert the player
-        createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scaleX: 1, scaleY: 1}, 500);
+    else if (randomNumber == 4) {
+        createPowerup('boots');
     }
 }
 
@@ -106,61 +37,35 @@ function hitPowerup() {
         //hittest
         if (hitTest(hero,powerups[k])) {
             //points sound
-            createjs.Sound.play("pointssound");
+            createjs.Sound.play(powerups[k], "pointssound");
             console.log(powerups[k].type + " er ramt");
 
             //chainsaw powerup
             if (powerups[k].type == "chainsaw") {
                 chainsawTimer = 10;
 
-                //text and animation
-                let text = new createjs.Text("Chainsaw Acquired!", "20px Russo One", "black");
-                text.x = powerups[k].x+25;
-                text.y = powerups[k].y;
-                text.textAlign = "center";
-                text.alpha = 0;
-
-                stage.addChild(text);
-
-                createjs.Tween.get(text).to({alpha:1}, 100).to({y: text.y-50}, 1000).wait(200).to({alpha: 0}, 100).call(function() {
-                    stage.removeChild(text);
-                });
+                createPowerupText(powerups[k], "Chainsaw acquired!");
             }
 
             //boot powerup
-            if (powerups[k].type == "boots") {
+            else if (powerups[k].type == "boots") {
                 speedTimer = 10;
 
-                //text and animation
-                let text = new createjs.Text("Increased Speed!", "20px Russo One", "black");
-                text.x = powerups[k].x+25;
-                text.y = powerups[k].y;
-                text.textAlign = "center";
-                text.alpha = 0;
-
-                stage.addChild(text);
-
-                createjs.Tween.get(text).to({alpha:1}, 100).to({y: text.y-50}, 1000).wait(200).to({alpha: 0}, 100).call(function() {
-                    stage.removeChild(text);
-                });
+                createPowerupText(powerups[k], "Increased speed!");
             }
 
             //log powerup/bonus points
-            if (powerups[k].type == "log") {
+            else if (powerups[k].type == "log") {
                 points+=10;
 
-                //text and animation
-                let text = new createjs.Text("10 points!", "20px Russo One", "black");
-                text.x = powerups[k].x+25;
-                text.y = powerups[k].y;
-                text.textAlign = "center";
-                text.alpha = 0;
+                createPowerupText(powerups[k], "10 points!");
+            }
 
-                stage.addChild(text);
+            //hourglass
+            else if (powerups[k].type == "hourglass") {
+                timer+=10;
 
-                createjs.Tween.get(text).to({alpha:1}, 100).to({y: text.y-50}, 1000).wait(200).to({alpha: 0}, 100).call(function() {
-                    stage.removeChild(text);
-                });
+                createPowerupText(powerups[k], "Extra time!");
             }
 
             //remove the powerup, which was hit
@@ -190,4 +95,42 @@ function checkPowerup() {
     } else {
         settings.speed = 4;
     }
+}
+
+function createPowerup(type) {
+    let typePng = type+'png';
+            let powerup = new createjs.Bitmap(q.getResult(typePng));
+            powerup.x = Math.random() * stage.canvas.width;
+            powerup.y = Math.random() * stage.canvas.height;
+            powerup.height = 50;
+            powerup.width = 50;
+    
+            //make sure the powerup cant spawn outside of the map.
+            reSpawnIfOutsideMap(powerup);
+    
+            //set powerup type
+            powerup.type = type;
+    
+            //add to array and game
+            powerups.push(powerup);
+            console.log("I just made " + powerup.type);
+            stage.addChild(powerup);
+    
+            //powerup jump animation to alert the player
+            createjs.Tween.get(powerup).wait(200).to({scaleX: 1.3, scaleY: 1.3}, 500).to({scaleX: 1, scaleY: 1}, 500);
+    }
+
+function createPowerupText(whichPowerup, powerupTextContent) {
+    //text and animation
+    let text = new createjs.Text(powerupTextContent, "20px Russo One", "black");
+    text.x = whichPowerup.x+25;
+    text.y = whichPowerup.y;
+    text.textAlign = "center";
+    text.alpha = 0;
+
+    stage.addChild(text);
+
+    createjs.Tween.get(text).to({alpha:1}, 100).to({y: text.y-50}, 1000).wait(200).to({alpha: 0}, 100).call(function() {
+        stage.removeChild(text);
+    });
 }
